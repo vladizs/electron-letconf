@@ -1,0 +1,12 @@
+@import './reset.scss';
+@import '../fonts/main.scss';
+
+*, *::after, *::before {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+html, body {
+  color: #fff;
+  background: #2A2D35;
+}
