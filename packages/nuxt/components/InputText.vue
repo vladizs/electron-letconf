@@ -3,6 +3,7 @@
     <span class="input-text__label">{{ label }}</span>
     <input
       :id="id"
+      v-model="text"
       class="input-text__input"
       :name="id"
       :type="type"
@@ -11,7 +12,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator';
+import {
+  Component, Prop, VModel, Vue,
+} from 'nuxt-property-decorator';
 
 /* eslint-disable */
 enum InputTextSize { // todo: implement styles based on size
@@ -28,6 +31,8 @@ export default class InputText extends Vue {
   @Prop({ type: String, required: true }) label!: string;
   @Prop({ type: String, default: InputTextSize.DEFAULT }) size!: InputTextSize;
   @Prop({ type: [String, Number], default: 24 }) marginBottom!: number | string;
+
+  @VModel({ type: String }) text!: string;
 
   get componentStyles() {
     return {

@@ -1,15 +1,17 @@
 <template>
   <div id="index-page">
-    <form action="#" class="login-form">
+    <form action="#" class="login-form" @submit.prevent="onFormSubmit">
       <h1 class="form__title">
         Welcome to LetConf!
       </h1>
       <InputText
         id="username"
+        v-model="login"
         label="Username"
       />
       <InputText
         id="password"
+        v-model="password"
         label="Password"
         type="password"
         margin-bottom="48px"
@@ -39,10 +41,19 @@ import InputText from '~/components/InputText.vue';
 })
 export default class IndexPage extends Vue {
   resizing = true;
+  login: string = '';
+  password: string = '';
 
   beforeMount() {
     this.resizing = false;
-    window.appBridge.allowResizing(this.resizing);
+    if (window.appBridge) {
+      window.appBridge.allowResizing(this.resizing);
+    }
+  }
+
+  onFormSubmit() {
+    console.debug(this.login, this.password);
+    this.$router.push('/meetings');
   }
 }
 </script>
