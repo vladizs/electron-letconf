@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Notification } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import { AppStorage } from "./storage/AppStorage";
@@ -28,9 +28,15 @@ function createWindow() {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
-}
 
-let a;
+  mainWindow.on('blur', () => {
+    mainWindow.webContents.send('blur');
+  });
+
+  mainWindow.on('focus', () => {
+    mainWindow.webContents.send('focus');
+  });
+}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -56,19 +62,6 @@ app
       // dock icon is clicked and there are no other windows open.
       if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
-  })
-  .then(() => {
-    a = new Notification({
-      title: "Test notification",
-      body: "Notification from Main process",
-      icon: path.join(__dirname, "../assets/app-icons/512x512.ico"),
-    });
-
-    a.on("click", () => {
-      BrowserWindow.getAllWindows()[0].focus();
-    });
-
-    a.show();
   });
 
 // Quit when all windows are closed, except on macOS. There, it's common
