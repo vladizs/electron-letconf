@@ -22,7 +22,7 @@ export default class TitlebarComponent extends Vue {
   }
 
   get isMac() {
-    return true;
+    return window.appBridge.isMac;
   }
 }
 </script>
