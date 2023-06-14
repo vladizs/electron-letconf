@@ -7,6 +7,6 @@ export interface IMeetingMember {
 
 export interface IMeetingData {
   id: string;
-  members: IMeetingMember[];
+  connectedMembers: IMeetingMember[];
   title: string;
 }

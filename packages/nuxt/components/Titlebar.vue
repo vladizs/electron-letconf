@@ -12,17 +12,15 @@ import { Component, Vue } from 'nuxt-property-decorator';
 @Component
 export default class TitlebarComponent extends Vue {
   isFocused = true;
+  isMac = false;
 
   mounted() {
-    window.appBridge.onFocusStateChange(this.changeFocusState)
+    this.isMac = window?.appBridge?.isMac;
+    window.appBridge?.onFocusStateChange(this.changeFocusState)
   }
 
   changeFocusState(state: boolean) {
     this.isFocused = state;
-  }
-
-  get isMac() {
-    return window.appBridge.isMac;
   }
 }
 </script>

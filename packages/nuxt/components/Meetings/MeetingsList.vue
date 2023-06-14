@@ -5,15 +5,15 @@
     </h1>
     <div
       v-for="meeting in meetings"
-      :key="meeting.id"
+      :key="meeting.uuid"
       class="meeting"
-      :class="{active: meeting.id === activeId}"
-      @click="openMeetingRoom(meeting.id)"
+      :class="{active: meeting.uuid === activeId}"
+      @click="openMeetingRoom(meeting.uuid)"
     >
       <h3 class="title">
         {{ meeting.title }}
       </h3>
-      <span class="description">
+      <span v-if="meeting.description" class="description">
         {{ meeting.description }}
       </span>
       <span class="date">ongoing</span>
@@ -27,7 +27,7 @@ import {
 } from 'nuxt-property-decorator';
 
 interface IMeeting {
-  id: string;
+  uuid: string;
   title: string;
   description: string;
   date: Date;
@@ -41,6 +41,7 @@ export default class MeetingList extends Vue {
 
   openMeetingRoom(id: string) {
     this.$router.push(`/meetings/${id}`);
+    this.$emit('pickMeeting', id);
   }
 }
 </script>

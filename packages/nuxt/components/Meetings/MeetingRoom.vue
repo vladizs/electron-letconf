@@ -2,28 +2,47 @@
   <div class="meeting-room">
     <header class="meeting-header">
       <h2>{{ meeting.title }}</h2>
-      <div class="avatar-line">
-        <div class="avatar"></div>
-        <div class="avatar"></div>
-        <div class="avatar"></div>
-      </div>
     </header>
+    <main class="meeting-room__inner">
+      <!-- <MeetingEmpty></MeetingEmpty> -->
+      <MeetingStarted @joinClick="onJoinClick" :members="meeting.connectedMembers"></MeetingStarted>
+    </main>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator';
 import { IMeetingData } from '~/interfaces/meeting';
+import MeetingEmpty from './MeetingEmpty.vue';
+import MeetingStarted from './MeetingStarted.vue';
 
-@Component
+@Component({
+  components: {
+    MeetingEmpty,
+    MeetingStarted
+  }
+})
 export default class MeetingRoom extends Vue {
   @Prop({ type: Object }) meeting!: IMeetingData;
+
+  mounted() {
+    console.log(this.meeting);
+  }
+
+  onJoinClick() {
+    this.$emit('joinClick');
+  }
+
 }
 </script>
 
 <style lang="scss" scoped>
 .meeting-room {
   width: 75%;
+}
+
+.meeting-room__inner {
+  height: calc(100% - 72px);
 }
 .meeting-header {
   display: flex;

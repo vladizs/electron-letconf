@@ -30,6 +30,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
+
+import { auth } from '~/api';
+
 import ButtonComponent from '~/components/ButtonComponent.vue';
 import InputText from '~/components/InputText.vue';
 
@@ -46,14 +49,18 @@ export default class IndexPage extends Vue {
 
   beforeMount() {
     this.resizing = false;
-    if (window.appBridge) {
-      window.appBridge.allowResizing(this.resizing);
+    if (window?.appBridge) {
+      window?.appBridge?.allowResizing(this.resizing);
     }
   }
 
-  onFormSubmit() {
-    console.debug(this.login, this.password);
-    this.$router.push('/meetings');
+  async onFormSubmit() {
+    try {
+      await auth.login(this.login, this.password);
+      this.$router.replace('/meetings')
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 </script>
